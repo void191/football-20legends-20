@@ -144,10 +144,22 @@ export default function Index() {
         {/* Main Stadium View */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Stadium Arena */}
-          <Card className="bg-gradient-to-b from-game-grass/20 to-game-field/20 border-game-grass/30">
+          <Card className="bg-gradient-to-b from-game-grass/20 to-game-field/20 border-game-grass/30 overflow-hidden">
             <CardContent className="p-8">
               <div className="text-center mb-6">
-                <div className="text-6xl mb-4">{currentArena.image}</div>
+                <Stadium3D
+                  arena={currentArena.id === 1 ? 'rookie' :
+                         currentArena.id === 2 ? 'bronze' :
+                         currentArena.id === 3 ? 'silver' :
+                         currentArena.id === 4 ? 'gold' :
+                         currentArena.id === 5 ? 'platinum' : 'champion'}
+                  timeOfDay="evening"
+                  weather="clear"
+                  crowd="full"
+                  animated={true}
+                  size="large"
+                  className="mb-4"
+                />
                 <h2 className="text-2xl font-bold text-game-grass mb-2">{currentArena.name}</h2>
                 <Badge variant="outline" className="bg-game-gold/10 text-game-gold border-game-gold">
                   {playerStats.trophies} Trophies
