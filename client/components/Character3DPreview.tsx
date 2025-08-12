@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import Character3D from './Character3D';
-import ParticleSystem from './ParticleSystem';
-import SkillEffects from './SkillEffects';
+import { useState, useEffect } from "react";
+import Character3D from "./Character3D";
+import ParticleSystem from "./ParticleSystem";
+import SkillEffects from "./SkillEffects";
 
 interface CharacterCustomization {
   hair: string;
@@ -10,28 +10,28 @@ interface CharacterCustomization {
   shorts: string;
   boots: string;
   number: number;
-  position: 'forward' | 'midfielder' | 'defender' | 'goalkeeper';
-  team: 'home' | 'away';
+  position: "forward" | "midfielder" | "defender" | "goalkeeper";
+  team: "home" | "away";
 }
 
 interface Character3DPreviewProps {
   customization: CharacterCustomization;
-  animation?: 'idle' | 'running' | 'kicking' | 'celebrating' | 'defending';
+  animation?: "idle" | "running" | "kicking" | "celebrating" | "defending";
   showSkills?: boolean;
   skillLevel?: number;
   interactive?: boolean;
-  size?: 'small' | 'medium' | 'large' | 'xl';
+  size?: "small" | "medium" | "large" | "xl";
   className?: string;
 }
 
 export default function Character3DPreview({
   customization,
-  animation = 'idle',
+  animation = "idle",
   showSkills = false,
   skillLevel = 1,
   interactive = true,
-  size = 'large',
-  className = ''
+  size = "large",
+  className = "",
 }: Character3DPreviewProps) {
   const [currentAnimation, setCurrentAnimation] = useState(animation);
   const [isHovered, setIsHovered] = useState(false);
@@ -39,38 +39,38 @@ export default function Character3DPreview({
   const [rotationAngle, setRotationAngle] = useState(0);
 
   const sizeClasses = {
-    small: 'w-32 h-40',
-    medium: 'w-48 h-56',
-    large: 'w-64 h-80',
-    xl: 'w-80 h-96'
+    small: "w-32 h-40",
+    medium: "w-48 h-56",
+    large: "w-64 h-80",
+    xl: "w-80 h-96",
   };
 
   const customizationStyles = {
     hair: {
-      classic: { color: '#8B4513', style: 'rounded-t-full' },
-      mohawk: { color: '#FF4500', style: 'rounded-t-lg' },
-      long: { color: '#4B0082', style: 'rounded-t-3xl' },
-      bald: { color: '#D2B48C', style: 'rounded-full' }
+      classic: { color: "#8B4513", style: "rounded-t-full" },
+      mohawk: { color: "#FF4500", style: "rounded-t-lg" },
+      long: { color: "#4B0082", style: "rounded-t-3xl" },
+      bald: { color: "#D2B48C", style: "rounded-full" },
     },
     face: {
-      friendly: { expression: '😊', mood: 'happy' },
-      determined: { expression: '😤', mood: 'focused' },
-      fierce: { expression: '😠', mood: 'intense' },
-      cool: { expression: '😎', mood: 'confident' }
+      friendly: { expression: "😊", mood: "happy" },
+      determined: { expression: "😤", mood: "focused" },
+      fierce: { expression: "😠", mood: "intense" },
+      cool: { expression: "😎", mood: "confident" },
     },
     jersey: {
-      home: { color: 'from-blue-600 to-blue-700', pattern: 'solid' },
-      away: { color: 'from-red-600 to-red-700', pattern: 'solid' },
-      third: { color: 'from-green-600 to-green-700', pattern: 'solid' },
-      retro: { color: 'from-yellow-600 to-yellow-700', pattern: 'striped' }
-    }
+      home: { color: "from-blue-600 to-blue-700", pattern: "solid" },
+      away: { color: "from-red-600 to-red-700", pattern: "solid" },
+      third: { color: "from-green-600 to-green-700", pattern: "solid" },
+      retro: { color: "from-yellow-600 to-yellow-700", pattern: "striped" },
+    },
   };
 
   useEffect(() => {
     if (interactive) {
       // Auto-cycle through animations when hovered
       if (isHovered) {
-        const animations = ['running', 'kicking', 'celebrating'];
+        const animations = ["running", "kicking", "celebrating"];
         let index = 0;
         const interval = setInterval(() => {
           setCurrentAnimation(animations[index]);
@@ -78,7 +78,7 @@ export default function Character3DPreview({
         }, 2000);
         return () => clearInterval(interval);
       } else {
-        setCurrentAnimation('idle');
+        setCurrentAnimation("idle");
       }
     }
   }, [isHovered, interactive]);
@@ -86,7 +86,7 @@ export default function Character3DPreview({
   useEffect(() => {
     if (interactive && isHovered) {
       const rotateInterval = setInterval(() => {
-        setRotationAngle(prev => (prev + 5) % 360);
+        setRotationAngle((prev) => (prev + 5) % 360);
       }, 100);
       return () => clearInterval(rotateInterval);
     } else {
@@ -101,7 +101,7 @@ export default function Character3DPreview({
   };
 
   return (
-    <div 
+    <div
       className={`relative ${sizeClasses[size]} ${className} cursor-pointer`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -117,21 +117,24 @@ export default function Character3DPreview({
             <div className="absolute bottom-0 inset-x-0 h-px bg-white/20"></div>
             <div className="absolute bottom-4 left-1/2 w-8 h-8 border border-white/20 rounded-full transform -translate-x-1/2"></div>
           </div>
-          
+
           {/* Stadium Lights */}
           <div className="absolute top-4 inset-x-0 flex justify-center gap-4">
             {Array.from({ length: 4 }, (_, i) => (
-              <div key={i} className="w-2 h-2 bg-yellow-300/60 rounded-full animate-pulse" 
-                   style={{ animationDelay: `${i * 0.5}s` }} />
+              <div
+                key={i}
+                className="w-2 h-2 bg-yellow-300/60 rounded-full animate-pulse"
+                style={{ animationDelay: `${i * 0.5}s` }}
+              />
             ))}
           </div>
         </div>
 
         {/* Character Display */}
-        <div 
+        <div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-300"
-          style={{ 
-            transform: `translateX(-50%) rotate(${rotationAngle}deg) scale(${isHovered ? 1.1 : 1})` 
+          style={{
+            transform: `translateX(-50%) rotate(${rotationAngle}deg) scale(${isHovered ? 1.1 : 1})`,
           }}
         >
           <Character3D
@@ -140,7 +143,7 @@ export default function Character3DPreview({
             team={customization.team}
             position={customization.position}
           />
-          
+
           {/* Character Shadow */}
           <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-3 bg-black/30 rounded-full blur-sm"></div>
         </div>
@@ -171,7 +174,9 @@ export default function Character3DPreview({
 
         {/* Jersey Number Display */}
         <div className="absolute top-4 right-4 bg-black/60 rounded-full w-8 h-8 flex items-center justify-center">
-          <span className="text-white font-bold text-sm">{customization.number}</span>
+          <span className="text-white font-bold text-sm">
+            {customization.number}
+          </span>
         </div>
 
         {/* Position Badge */}
@@ -198,12 +203,12 @@ export default function Character3DPreview({
             <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div className="w-2 h-2 bg-yellow-400/60 rounded-full animate-ping"></div>
             </div>
-            
+
             {/* Jersey Highlight */}
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div className="w-2 h-2 bg-blue-400/60 rounded-full animate-ping animation-delay-75"></div>
             </div>
-            
+
             {/* Boots Highlight */}
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
               <div className="w-2 h-2 bg-green-400/60 rounded-full animate-ping animation-delay-150"></div>
@@ -223,7 +228,7 @@ export default function Character3DPreview({
         {/* Animation Preview Controls */}
         {interactive && isHovered && (
           <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex gap-1">
-            {['idle', 'running', 'kicking', 'celebrating'].map((anim) => (
+            {["idle", "running", "kicking", "celebrating"].map((anim) => (
               <button
                 key={anim}
                 onClick={(e) => {
@@ -231,7 +236,7 @@ export default function Character3DPreview({
                   setCurrentAnimation(anim as any);
                 }}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  currentAnimation === anim ? 'bg-yellow-400' : 'bg-white/40'
+                  currentAnimation === anim ? "bg-yellow-400" : "bg-white/40"
                 }`}
               />
             ))}

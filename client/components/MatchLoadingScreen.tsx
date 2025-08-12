@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Progress } from '@/components/ui/progress';
-import Character3D from './Character3D';
-import Stadium3D from './Stadium3D';
-import ParticleSystem from './ParticleSystem';
+import { useState, useEffect } from "react";
+import { Progress } from "@/components/ui/progress";
+import Character3D from "./Character3D";
+import Stadium3D from "./Stadium3D";
+import ParticleSystem from "./ParticleSystem";
 
 interface TeamPlayer {
   id: string;
   name: string;
-  position: 'forward' | 'midfielder' | 'defender' | 'goalkeeper';
+  position: "forward" | "midfielder" | "defender" | "goalkeeper";
   overall: number;
   isAI: boolean;
 }
@@ -15,8 +15,8 @@ interface TeamPlayer {
 interface MatchLoadingScreenProps {
   homeTeam: TeamPlayer[];
   awayTeam: TeamPlayer[];
-  arena: 'rookie' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'champion';
-  matchType: 'ranked' | 'friendly' | 'tournament';
+  arena: "rookie" | "bronze" | "silver" | "gold" | "platinum" | "champion";
+  matchType: "ranked" | "friendly" | "tournament";
   onLoadComplete?: () => void;
   loadingDuration?: number;
 }
@@ -27,40 +27,42 @@ export default function MatchLoadingScreen({
   arena,
   matchType,
   onLoadComplete,
-  loadingDuration = 8000
+  loadingDuration = 8000,
 }: MatchLoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [currentPhase, setCurrentPhase] = useState(0);
   const [showVS, setShowVS] = useState(false);
-  const [teamAnimations, setTeamAnimations] = useState<'idle' | 'running' | 'celebrating'>('idle');
+  const [teamAnimations, setTeamAnimations] = useState<
+    "idle" | "running" | "celebrating"
+  >("idle");
 
   const loadingPhases = [
-    { text: 'Preparing the pitch...', emoji: '🏟️', duration: 1500 },
-    { text: 'Loading player data...', emoji: '👥', duration: 1500 },
-    { text: 'Setting up match conditions...', emoji: '⚙️', duration: 1500 },
-    { text: 'Calibrating AI opponents...', emoji: '🤖', duration: 1500 },
-    { text: 'Final preparations...', emoji: '⚽', duration: 2000 }
+    { text: "Preparing the pitch...", emoji: "🏟️", duration: 1500 },
+    { text: "Loading player data...", emoji: "👥", duration: 1500 },
+    { text: "Setting up match conditions...", emoji: "⚙️", duration: 1500 },
+    { text: "Calibrating AI opponents...", emoji: "🤖", duration: 1500 },
+    { text: "Final preparations...", emoji: "⚽", duration: 2000 },
   ];
 
   const matchTypeConfig = {
     ranked: {
-      title: 'RANKED MATCH',
-      subtitle: 'Climb the ladder',
-      color: 'from-red-500 to-red-600',
-      effect: 'competition'
+      title: "RANKED MATCH",
+      subtitle: "Climb the ladder",
+      color: "from-red-500 to-red-600",
+      effect: "competition",
     },
     friendly: {
-      title: 'FRIENDLY MATCH',
-      subtitle: 'Practice makes perfect',
-      color: 'from-green-500 to-green-600',
-      effect: 'casual'
+      title: "FRIENDLY MATCH",
+      subtitle: "Practice makes perfect",
+      color: "from-green-500 to-green-600",
+      effect: "casual",
     },
     tournament: {
-      title: 'TOURNAMENT',
-      subtitle: 'Championship glory awaits',
-      color: 'from-yellow-500 to-yellow-600',
-      effect: 'championship'
-    }
+      title: "TOURNAMENT",
+      subtitle: "Championship glory awaits",
+      color: "from-yellow-500 to-yellow-600",
+      effect: "championship",
+    },
   };
 
   const config = matchTypeConfig[matchType];
@@ -96,11 +98,15 @@ export default function MatchLoadingScreen({
   useEffect(() => {
     // Show VS animation
     const vsTimer = setTimeout(() => setShowVS(true), 2000);
-    
+
     // Team animation cycles
     const animationTimer = setInterval(() => {
-      setTeamAnimations(prev => {
-        const animations: ('idle' | 'running' | 'celebrating')[] = ['idle', 'running', 'celebrating'];
+      setTeamAnimations((prev) => {
+        const animations: ("idle" | "running" | "celebrating")[] = [
+          "idle",
+          "running",
+          "celebrating",
+        ];
         const currentIndex = animations.indexOf(prev);
         return animations[(currentIndex + 1) % animations.length];
       });
@@ -112,12 +118,16 @@ export default function MatchLoadingScreen({
     };
   }, []);
 
-  const renderTeam = (team: TeamPlayer[], side: 'home' | 'away') => (
-    <div className={`flex flex-col items-center gap-4 ${side === 'home' ? 'items-start' : 'items-end'}`}>
-      <div className={`text-2xl font-bold ${side === 'home' ? 'text-blue-400' : 'text-red-400'}`}>
-        {side === 'home' ? 'HOME' : 'AWAY'}
+  const renderTeam = (team: TeamPlayer[], side: "home" | "away") => (
+    <div
+      className={`flex flex-col items-center gap-4 ${side === "home" ? "items-start" : "items-end"}`}
+    >
+      <div
+        className={`text-2xl font-bold ${side === "home" ? "text-blue-400" : "text-red-400"}`}
+      >
+        {side === "home" ? "HOME" : "AWAY"}
       </div>
-      
+
       {/* Formation Display */}
       <div className="relative">
         <div className="grid grid-cols-1 gap-2">
@@ -129,11 +139,13 @@ export default function MatchLoadingScreen({
                 team={side}
                 position={player.position}
               />
-              <div className={`text-sm ${side === 'away' ? 'text-right' : ''}`}>
+              <div className={`text-sm ${side === "away" ? "text-right" : ""}`}>
                 <div className="font-semibold flex items-center gap-1">
                   {player.name}
                   {player.isAI && (
-                    <span className="text-xs bg-orange-500/20 text-orange-300 px-1 rounded">AI</span>
+                    <span className="text-xs bg-orange-500/20 text-orange-300 px-1 rounded">
+                      AI
+                    </span>
                   )}
                 </div>
                 <div className="text-xs text-muted-foreground">
@@ -183,7 +195,9 @@ export default function MatchLoadingScreen({
       <div className="relative z-10 w-full max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className={`text-4xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent mb-2`}>
+          <div
+            className={`text-4xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent mb-2`}
+          >
             {config.title}
           </div>
           <div className="text-lg text-muted-foreground">{config.subtitle}</div>
@@ -195,25 +209,27 @@ export default function MatchLoadingScreen({
         {/* Team Display */}
         <div className="grid grid-cols-3 gap-8 items-center mb-12">
           {/* Home Team */}
-          <div className="text-center">
-            {renderTeam(homeTeam, 'home')}
-          </div>
+          <div className="text-center">{renderTeam(homeTeam, "home")}</div>
 
           {/* VS Display */}
           <div className="text-center relative">
-            <div className={`text-6xl font-bold transition-all duration-1000 ${
-              showVS ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-180'
-            }`}>
+            <div
+              className={`text-6xl font-bold transition-all duration-1000 ${
+                showVS
+                  ? "scale-100 opacity-100 rotate-0"
+                  : "scale-0 opacity-0 rotate-180"
+              }`}
+            >
               <span className="bg-gradient-to-r from-blue-400 via-white to-red-400 bg-clip-text text-transparent">
                 VS
               </span>
             </div>
-            
+
             {/* Animated Soccer Ball */}
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-3xl animate-spin">
               ⚽
             </div>
-            
+
             {/* Energy Beams */}
             {showVS && (
               <>
@@ -224,9 +240,7 @@ export default function MatchLoadingScreen({
           </div>
 
           {/* Away Team */}
-          <div className="text-center">
-            {renderTeam(awayTeam, 'away')}
-          </div>
+          <div className="text-center">{renderTeam(awayTeam, "away")}</div>
         </div>
 
         {/* Loading Progress */}
@@ -241,7 +255,7 @@ export default function MatchLoadingScreen({
           </div>
 
           <Progress value={progress} className="h-4 mb-4" />
-          
+
           <div className="text-center text-sm text-muted-foreground">
             {Math.round(progress)}% Complete
           </div>
@@ -252,24 +266,30 @@ export default function MatchLoadingScreen({
           <div className="bg-card/50 backdrop-blur rounded-lg p-4 border border-border/50">
             <div className="text-2xl mb-2">⚡</div>
             <div className="font-semibold mb-1">Use Skills Wisely</div>
-            <div className="text-muted-foreground">Activate special abilities at the right moment</div>
+            <div className="text-muted-foreground">
+              Activate special abilities at the right moment
+            </div>
           </div>
-          
+
           <div className="bg-card/50 backdrop-blur rounded-lg p-4 border border-border/50">
             <div className="text-2xl mb-2">🎯</div>
             <div className="font-semibold mb-1">Team Coordination</div>
-            <div className="text-muted-foreground">Work with AI teammates for better plays</div>
+            <div className="text-muted-foreground">
+              Work with AI teammates for better plays
+            </div>
           </div>
-          
+
           <div className="bg-card/50 backdrop-blur rounded-lg p-4 border border-border/50">
             <div className="text-2xl mb-2">🏆</div>
             <div className="font-semibold mb-1">Earn Rewards</div>
-            <div className="text-muted-foreground">Win to gain XP, trophies, and climb arenas</div>
+            <div className="text-muted-foreground">
+              Win to gain XP, trophies, and climb arenas
+            </div>
           </div>
         </div>
 
         {/* Championship Effects */}
-        {matchType === 'tournament' && (
+        {matchType === "tournament" && (
           <div className="absolute inset-0 pointer-events-none">
             <ParticleSystem
               type="celebration"

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 interface Particle {
   id: number;
@@ -14,8 +14,15 @@ interface Particle {
 }
 
 interface ParticleSystemProps {
-  type?: 'sparks' | 'stars' | 'trail' | 'explosion' | 'magic' | 'energy' | 'celebration';
-  intensity?: 'low' | 'medium' | 'high';
+  type?:
+    | "sparks"
+    | "stars"
+    | "trail"
+    | "explosion"
+    | "magic"
+    | "energy"
+    | "celebration";
+  intensity?: "low" | "medium" | "high";
   color?: string;
   duration?: number;
   trigger?: boolean;
@@ -25,14 +32,14 @@ interface ParticleSystemProps {
 }
 
 export default function ParticleSystem({
-  type = 'sparks',
-  intensity = 'medium',
-  color = '#3b82f6',
+  type = "sparks",
+  intensity = "medium",
+  color = "#3b82f6",
   duration = 2000,
   trigger = false,
   continuous = false,
   position = { x: 50, y: 50 },
-  className = ''
+  className = "",
 }: ParticleSystemProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [isActive, setIsActive] = useState(false);
@@ -41,60 +48,63 @@ export default function ParticleSystem({
   const intensityConfig = {
     low: { count: 10, rate: 5 },
     medium: { count: 25, rate: 10 },
-    high: { count: 50, rate: 20 }
+    high: { count: 50, rate: 20 },
   };
 
   const typeConfig = {
     sparks: {
-      particles: ['✨', '⭐', '💫'],
+      particles: ["✨", "⭐", "💫"],
       velocity: { min: 2, max: 8 },
       life: { min: 1000, max: 2000 },
-      size: { min: 8, max: 16 }
+      size: { min: 8, max: 16 },
     },
     stars: {
-      particles: ['🌟', '⭐', '✨'],
+      particles: ["🌟", "⭐", "✨"],
       velocity: { min: 1, max: 4 },
       life: { min: 1500, max: 3000 },
-      size: { min: 12, max: 20 }
+      size: { min: 12, max: 20 },
     },
     trail: {
-      particles: ['⚡', '💨', '💫'],
+      particles: ["⚡", "💨", "💫"],
       velocity: { min: 3, max: 6 },
       life: { min: 800, max: 1500 },
-      size: { min: 10, max: 18 }
+      size: { min: 10, max: 18 },
     },
     explosion: {
-      particles: ['💥', '🔥', '⚡', '✨'],
+      particles: ["💥", "🔥", "⚡", "✨"],
       velocity: { min: 5, max: 12 },
       life: { min: 500, max: 1200 },
-      size: { min: 16, max: 24 }
+      size: { min: 16, max: 24 },
     },
     magic: {
-      particles: ['🔮', '✨', '🌟', '💫', '⭐'],
+      particles: ["🔮", "✨", "🌟", "💫", "⭐"],
       velocity: { min: 1, max: 5 },
       life: { min: 2000, max: 4000 },
-      size: { min: 14, max: 22 }
+      size: { min: 14, max: 22 },
     },
     energy: {
-      particles: ['⚡', '🔋', '💡', '🌟'],
+      particles: ["⚡", "🔋", "💡", "🌟"],
       velocity: { min: 2, max: 7 },
       life: { min: 1200, max: 2500 },
-      size: { min: 12, max: 18 }
+      size: { min: 12, max: 18 },
     },
     celebration: {
-      particles: ['🎉', '🎊', '🥳', '🏆', '⚡', '✨'],
+      particles: ["🎉", "🎊", "🥳", "🏆", "⚡", "✨"],
       velocity: { min: 3, max: 9 },
       life: { min: 1500, max: 3000 },
-      size: { min: 16, max: 24 }
-    }
+      size: { min: 16, max: 24 },
+    },
   };
 
   const createParticle = (id: number): Particle => {
     const config = typeConfig[type];
     const angle = Math.random() * Math.PI * 2;
-    const speed = config.velocity.min + Math.random() * (config.velocity.max - config.velocity.min);
-    const life = config.life.min + Math.random() * (config.life.max - config.life.min);
-    
+    const speed =
+      config.velocity.min +
+      Math.random() * (config.velocity.max - config.velocity.min);
+    const life =
+      config.life.min + Math.random() * (config.life.max - config.life.min);
+
     return {
       id,
       x: position.x + (Math.random() - 0.5) * 20,
@@ -103,37 +113,40 @@ export default function ParticleSystem({
       vy: Math.sin(angle) * speed,
       life,
       maxLife: life,
-      size: config.size.min + Math.random() * (config.size.max - config.size.min),
+      size:
+        config.size.min + Math.random() * (config.size.max - config.size.min),
       color,
-      type: config.particles[Math.floor(Math.random() * config.particles.length)]
+      type: config.particles[
+        Math.floor(Math.random() * config.particles.length)
+      ],
     };
   };
 
   const updateParticles = () => {
-    setParticles(prevParticles => {
+    setParticles((prevParticles) => {
       return prevParticles
-        .map(particle => ({
+        .map((particle) => ({
           ...particle,
           x: particle.x + particle.vx,
           y: particle.y + particle.vy,
           vy: particle.vy + 0.2, // gravity
-          life: particle.life - 16
+          life: particle.life - 16,
         }))
-        .filter(particle => particle.life > 0);
+        .filter((particle) => particle.life > 0);
     });
   };
 
   const generateParticles = () => {
     if (!isActive) return;
-    
+
     const config = intensityConfig[intensity];
     const newParticles: Particle[] = [];
-    
+
     for (let i = 0; i < config.rate; i++) {
       newParticles.push(createParticle(Date.now() + i));
     }
-    
-    setParticles(prev => [...prev, ...newParticles].slice(-config.count));
+
+    setParticles((prev) => [...prev, ...newParticles].slice(-config.count));
   };
 
   useEffect(() => {
@@ -152,7 +165,10 @@ export default function ParticleSystem({
     if (!isActive && !continuous) return;
 
     const animationFrame = setInterval(updateParticles, 16);
-    const generationFrame = setInterval(generateParticles, continuous ? 100 : 50);
+    const generationFrame = setInterval(
+      generateParticles,
+      continuous ? 100 : 50,
+    );
 
     return () => {
       clearInterval(animationFrame);
@@ -161,14 +177,14 @@ export default function ParticleSystem({
   }, [isActive, continuous, type, intensity, position]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}
     >
-      {particles.map(particle => {
+      {particles.map((particle) => {
         const opacity = particle.life / particle.maxLife;
         const scale = 0.5 + (particle.life / particle.maxLife) * 0.5;
-        
+
         return (
           <div
             key={particle.id}
@@ -180,7 +196,7 @@ export default function ParticleSystem({
               opacity: opacity,
               transform: `translate(-50%, -50%) scale(${scale})`,
               filter: `blur(${(1 - opacity) * 2}px)`,
-              textShadow: `0 0 ${opacity * 10}px ${particle.color}`
+              textShadow: `0 0 ${opacity * 10}px ${particle.color}`,
             }}
           >
             {particle.type}

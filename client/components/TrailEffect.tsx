@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 interface TrailPoint {
   id: number;
@@ -12,22 +12,22 @@ interface TrailEffectProps {
   color?: string;
   width?: number;
   length?: number;
-  intensity?: 'low' | 'medium' | 'high';
-  type?: 'basic' | 'energy' | 'magic' | 'speed' | 'fire' | 'lightning';
+  intensity?: "low" | "medium" | "high";
+  type?: "basic" | "energy" | "magic" | "speed" | "fire" | "lightning";
   follow?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
 
 export default function TrailEffect({
-  color = '#3b82f6',
+  color = "#3b82f6",
   width = 4,
   length = 20,
-  intensity = 'medium',
-  type = 'basic',
+  intensity = "medium",
+  type = "basic",
   follow = true,
-  className = '',
-  children
+  className = "",
+  children,
 }: TrailEffectProps) {
   const [trails, setTrails] = useState<TrailPoint[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -37,7 +37,7 @@ export default function TrailEffect({
   const intensityConfig = {
     low: { frequency: 100, particles: 1 },
     medium: { frequency: 50, particles: 2 },
-    high: { frequency: 25, particles: 3 }
+    high: { frequency: 25, particles: 3 },
   };
 
   const typeEffects = {
@@ -45,71 +45,71 @@ export default function TrailEffect({
       colors: [color],
       blur: 0,
       glow: false,
-      particles: ['●']
+      particles: ["●"],
     },
     energy: {
-      colors: ['#3b82f6', '#06b6d4', '#8b5cf6'],
+      colors: ["#3b82f6", "#06b6d4", "#8b5cf6"],
       blur: 2,
       glow: true,
-      particles: ['⚡', '🔋', '💫']
+      particles: ["⚡", "🔋", "💫"],
     },
     magic: {
-      colors: ['#8b5cf6', '#ec4899', '#f59e0b'],
+      colors: ["#8b5cf6", "#ec4899", "#f59e0b"],
       blur: 3,
       glow: true,
-      particles: ['✨', '🌟', '💫', '⭐']
+      particles: ["✨", "🌟", "💫", "⭐"],
     },
     speed: {
-      colors: ['#ef4444', '#f97316', '#eab308'],
+      colors: ["#ef4444", "#f97316", "#eab308"],
       blur: 1,
       glow: true,
-      particles: ['💨', '⚡', '🔥']
+      particles: ["💨", "⚡", "🔥"],
     },
     fire: {
-      colors: ['#ef4444', '#f97316', '#facc15'],
+      colors: ["#ef4444", "#f97316", "#facc15"],
       blur: 2,
       glow: true,
-      particles: ['🔥', '💥', '⚡']
+      particles: ["🔥", "💥", "⚡"],
     },
     lightning: {
-      colors: ['#06b6d4', '#3b82f6', '#8b5cf6'],
+      colors: ["#06b6d4", "#3b82f6", "#8b5cf6"],
       blur: 1,
       glow: true,
-      particles: ['⚡', '🌟', '💫']
-    }
+      particles: ["⚡", "🌟", "💫"],
+    },
   };
 
   const config = typeEffects[type];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current || !follow) return;
-    
+
     const rect = containerRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
+
     setMousePos({ x, y });
   };
 
   const createTrailPoint = () => {
     const trailId = trailIdRef.current++;
     const maxLife = 1000 + Math.random() * 500;
-    
+
     return {
       id: trailId,
       x: mousePos.x + (Math.random() - 0.5) * 5,
       y: mousePos.y + (Math.random() - 0.5) * 5,
       life: maxLife,
-      maxLife
+      maxLife,
     };
   };
 
   useEffect(() => {
     const updateTrails = () => {
-      setTrails(prevTrails => 
+      setTrails((prevTrails) =>
         prevTrails
-          .map(trail => ({ ...trail, life: trail.life - 16 }))
-          .filter(trail => trail.life > 0)
+          .map((trail) => ({ ...trail, life: trail.life - 16 }))
+          .filter((trail) => trail.life > 0),
       );
     };
 
@@ -121,13 +121,13 @@ export default function TrailEffect({
     if (!follow) return;
 
     const { frequency, particles } = intensityConfig[intensity];
-    
+
     const addTrails = () => {
       const newTrails: TrailPoint[] = [];
       for (let i = 0; i < particles; i++) {
         newTrails.push(createTrailPoint());
       }
-      setTrails(prev => [...prev, ...newTrails].slice(-length));
+      setTrails((prev) => [...prev, ...newTrails].slice(-length));
     };
 
     const interval = setInterval(addTrails, frequency);
@@ -143,20 +143,20 @@ export default function TrailEffect({
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`relative ${className}`}
       onMouseMove={handleMouseMove}
     >
       {children}
-      
+
       {/* Trail Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {trails.map((trail, index) => {
           const opacity = trail.life / trail.maxLife;
           const scale = 0.3 + opacity * 0.7;
           const trailColor = getTrailColor(index);
-          
+
           return (
             <div
               key={trail.id}
@@ -167,30 +167,42 @@ export default function TrailEffect({
                 opacity: opacity * 0.8,
                 transform: `translate(-50%, -50%) scale(${scale})`,
                 color: trailColor,
-                filter: config.glow 
+                filter: config.glow
                   ? `blur(${config.blur}px) drop-shadow(0 0 ${opacity * 8}px ${trailColor})`
                   : `blur(${config.blur}px)`,
                 fontSize: `${width * 2}px`,
-                textShadow: config.glow ? `0 0 ${opacity * 10}px ${trailColor}` : 'none'
+                textShadow: config.glow
+                  ? `0 0 ${opacity * 10}px ${trailColor}`
+                  : "none",
               }}
             >
-              {type === 'basic' ? '●' : getTrailParticle(index)}
+              {type === "basic" ? "●" : getTrailParticle(index)}
             </div>
           );
         })}
       </div>
 
       {/* SVG Trail for basic type */}
-      {type === 'basic' && trails.length > 1 && (
-        <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
+      {type === "basic" && trails.length > 1 && (
+        <svg
+          className="absolute inset-0 pointer-events-none"
+          width="100%"
+          height="100%"
+        >
           <defs>
-            <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={color} stopOpacity="0"/>
-              <stop offset="100%" stopColor={color} stopOpacity="0.6"/>
+            <linearGradient
+              id="trailGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor={color} stopOpacity="0" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.6" />
             </linearGradient>
           </defs>
           <path
-            d={`M ${trails.map(trail => `${trail.x},${trail.y}`).join(' L ')}`}
+            d={`M ${trails.map((trail) => `${trail.x},${trail.y}`).join(" L ")}`}
             stroke="url(#trailGradient)"
             strokeWidth={width}
             fill="none"

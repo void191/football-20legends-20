@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
-import ParticleSystem from './ParticleSystem';
-import TrailEffect from './TrailEffect';
+import { useState, useEffect } from "react";
+import ParticleSystem from "./ParticleSystem";
+import TrailEffect from "./TrailEffect";
 
 interface SkillEffectsProps {
-  skillType: 'speed' | 'shooting' | 'defending' | 'passing' | 'dribbling' | 'goalkeeping';
+  skillType:
+    | "speed"
+    | "shooting"
+    | "defending"
+    | "passing"
+    | "dribbling"
+    | "goalkeeping";
   level: number;
   active?: boolean;
-  intensity?: 'low' | 'medium' | 'high';
+  intensity?: "low" | "medium" | "high";
   duration?: number;
   position?: { x: number; y: number };
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   className?: string;
 }
 
@@ -17,76 +23,76 @@ export default function SkillEffects({
   skillType,
   level,
   active = false,
-  intensity = 'medium',
+  intensity = "medium",
   duration = 3000,
   position = { x: 50, y: 50 },
-  size = 'medium',
-  className = ''
+  size = "medium",
+  className = "",
 }: SkillEffectsProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [pulsePhase, setPulsePhase] = useState(0);
 
   const sizeConfig = {
-    small: { scale: 0.7, iconSize: 'text-2xl' },
-    medium: { scale: 1, iconSize: 'text-4xl' },
-    large: { scale: 1.3, iconSize: 'text-6xl' }
+    small: { scale: 0.7, iconSize: "text-2xl" },
+    medium: { scale: 1, iconSize: "text-4xl" },
+    large: { scale: 1.3, iconSize: "text-6xl" },
   };
 
   const skillConfig = {
     speed: {
-      color: '#3b82f6',
-      icon: '⚡',
-      particle: 'energy',
-      trail: 'lightning',
-      effect: 'Speed Boost',
-      description: 'Lightning fast movement',
-      aura: 'from-blue-500/20 to-cyan-500/20'
+      color: "#3b82f6",
+      icon: "⚡",
+      particle: "energy",
+      trail: "lightning",
+      effect: "Speed Boost",
+      description: "Lightning fast movement",
+      aura: "from-blue-500/20 to-cyan-500/20",
     },
     shooting: {
-      color: '#ef4444',
-      icon: '🎯',
-      particle: 'explosion',
-      trail: 'fire',
-      effect: 'Power Shot',
-      description: 'Devastating accuracy',
-      aura: 'from-red-500/20 to-orange-500/20'
+      color: "#ef4444",
+      icon: "🎯",
+      particle: "explosion",
+      trail: "fire",
+      effect: "Power Shot",
+      description: "Devastating accuracy",
+      aura: "from-red-500/20 to-orange-500/20",
     },
     defending: {
-      color: '#10b981',
-      icon: '🛡️',
-      particle: 'sparks',
-      trail: 'energy',
-      effect: 'Iron Defense',
-      description: 'Impenetrable barrier',
-      aura: 'from-green-500/20 to-emerald-500/20'
+      color: "#10b981",
+      icon: "🛡️",
+      particle: "sparks",
+      trail: "energy",
+      effect: "Iron Defense",
+      description: "Impenetrable barrier",
+      aura: "from-green-500/20 to-emerald-500/20",
     },
     passing: {
-      color: '#8b5cf6',
-      icon: '🎪',
-      particle: 'magic',
-      trail: 'magic',
-      effect: 'Perfect Pass',
-      description: 'Pinpoint precision',
-      aura: 'from-purple-500/20 to-violet-500/20'
+      color: "#8b5cf6",
+      icon: "🎪",
+      particle: "magic",
+      trail: "magic",
+      effect: "Perfect Pass",
+      description: "Pinpoint precision",
+      aura: "from-purple-500/20 to-violet-500/20",
     },
     dribbling: {
-      color: '#f59e0b',
-      icon: '💫',
-      particle: 'stars',
-      trail: 'speed',
-      effect: 'Skill Move',
-      description: 'Mesmerizing control',
-      aura: 'from-yellow-500/20 to-amber-500/20'
+      color: "#f59e0b",
+      icon: "💫",
+      particle: "stars",
+      trail: "speed",
+      effect: "Skill Move",
+      description: "Mesmerizing control",
+      aura: "from-yellow-500/20 to-amber-500/20",
     },
     goalkeeping: {
-      color: '#06b6d4',
-      icon: '🥅',
-      particle: 'energy',
-      trail: 'basic',
-      effect: 'Super Save',
-      description: 'Superhuman reflexes',
-      aura: 'from-cyan-500/20 to-blue-500/20'
-    }
+      color: "#06b6d4",
+      icon: "🥅",
+      particle: "energy",
+      trail: "basic",
+      effect: "Super Save",
+      description: "Superhuman reflexes",
+      aura: "from-cyan-500/20 to-blue-500/20",
+    },
   };
 
   const config = skillConfig[skillType];
@@ -104,7 +110,7 @@ export default function SkillEffects({
     if (!isAnimating) return;
 
     const pulseInterval = setInterval(() => {
-      setPulsePhase(prev => (prev + 1) % 4);
+      setPulsePhase((prev) => (prev + 1) % 4);
     }, 500);
 
     return () => clearInterval(pulseInterval);
@@ -116,14 +122,19 @@ export default function SkillEffects({
 
   const getIntensityMultiplier = () => {
     switch (intensity) {
-      case 'low': return 0.5;
-      case 'medium': return 1;
-      case 'high': return 1.5;
-      default: return 1;
+      case "low":
+        return 0.5;
+      case "medium":
+        return 1;
+      case "high":
+        return 1.5;
+      default:
+        return 1;
     }
   };
 
-  const effectScale = getLevelMultiplier() * getIntensityMultiplier() * sizeSettings.scale;
+  const effectScale =
+    getLevelMultiplier() * getIntensityMultiplier() * sizeSettings.scale;
 
   return (
     <div className={`absolute inset-0 pointer-events-none ${className}`}>
@@ -137,12 +148,12 @@ export default function SkillEffects({
       >
         {/* Skill Aura */}
         {isAnimating && (
-          <div 
+          <div
             className={`absolute inset-0 rounded-full bg-gradient-radial ${config.aura} animate-pulse blur-lg`}
             style={{
               width: `${100 * effectScale}px`,
               height: `${100 * effectScale}px`,
-              transform: 'translate(-50%, -50%)'
+              transform: "translate(-50%, -50%)",
             }}
           />
         )}
@@ -150,13 +161,15 @@ export default function SkillEffects({
         {/* Skill Icon */}
         <div
           className={`relative ${sizeSettings.iconSize} transition-all duration-300 ${
-            isAnimating ? 'animate-bounce scale-125' : ''
+            isAnimating ? "animate-bounce scale-125" : ""
           }`}
           style={{
             color: config.color,
-            filter: isAnimating ? `drop-shadow(0 0 20px ${config.color})` : 'none',
-            textShadow: isAnimating ? `0 0 30px ${config.color}` : 'none',
-            transform: `scale(${effectScale})`
+            filter: isAnimating
+              ? `drop-shadow(0 0 20px ${config.color})`
+              : "none",
+            textShadow: isAnimating ? `0 0 30px ${config.color}` : "none",
+            transform: `scale(${effectScale})`,
           }}
         >
           {config.icon}
@@ -168,15 +181,18 @@ export default function SkillEffects({
             <div
               key={i}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i < level 
-                  ? isAnimating 
-                    ? 'animate-pulse scale-125' 
-                    : 'scale-100'
-                  : 'opacity-30'
+                i < level
+                  ? isAnimating
+                    ? "animate-pulse scale-125"
+                    : "scale-100"
+                  : "opacity-30"
               }`}
               style={{
-                backgroundColor: i < level ? config.color : '#6b7280',
-                boxShadow: i < level && isAnimating ? `0 0 10px ${config.color}` : 'none'
+                backgroundColor: i < level ? config.color : "#6b7280",
+                boxShadow:
+                  i < level && isAnimating
+                    ? `0 0 10px ${config.color}`
+                    : "none",
               }}
             />
           ))}
@@ -184,16 +200,14 @@ export default function SkillEffects({
 
         {/* Skill Name */}
         {isAnimating && (
-          <div 
+          <div
             className="absolute -top-12 left-1/2 transform -translate-x-1/2 text-center"
             style={{ color: config.color }}
           >
             <div className="text-sm font-bold animate-pulse">
               {config.effect}
             </div>
-            <div className="text-xs opacity-80">
-              {config.description}
-            </div>
+            <div className="text-xs opacity-80">{config.description}</div>
           </div>
         )}
 
@@ -206,11 +220,11 @@ export default function SkillEffects({
                 className="absolute w-1 h-1 rounded-full animate-spin"
                 style={{
                   backgroundColor: config.color,
-                  left: '50%',
-                  top: '50%',
+                  left: "50%",
+                  top: "50%",
                   transformOrigin: `0 ${30 + i * 10}px`,
                   animationDuration: `${2 + i * 0.5}s`,
-                  animationDelay: `${i * 0.2}s`
+                  animationDelay: `${i * 0.2}s`,
                 }}
               />
             ))}
@@ -220,22 +234,22 @@ export default function SkillEffects({
         {/* Pulse Waves */}
         {isAnimating && (
           <>
-            <div 
+            <div
               className="absolute inset-0 rounded-full border-2 animate-ping"
-              style={{ 
+              style={{
                 borderColor: config.color,
                 width: `${60 * effectScale}px`,
                 height: `${60 * effectScale}px`,
-                transform: 'translate(-50%, -50%)'
+                transform: "translate(-50%, -50%)",
               }}
             />
-            <div 
+            <div
               className="absolute inset-0 rounded-full border animate-ping animation-delay-75"
-              style={{ 
+              style={{
                 borderColor: config.color,
                 width: `${80 * effectScale}px`,
                 height: `${80 * effectScale}px`,
-                transform: 'translate(-50%, -50%)'
+                transform: "translate(-50%, -50%)",
               }}
             />
           </>
@@ -255,7 +269,7 @@ export default function SkillEffects({
       )}
 
       {/* Trail Effects for Movement Skills */}
-      {isAnimating && (skillType === 'speed' || skillType === 'dribbling') && (
+      {isAnimating && (skillType === "speed" || skillType === "dribbling") && (
         <TrailEffect
           type={config.trail as any}
           color={config.color}
@@ -269,18 +283,18 @@ export default function SkillEffects({
       {isAnimating && level === 5 && (
         <div className="absolute inset-0">
           {/* Master Level Aura */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-spin"
             style={{
               width: `${120 * effectScale}px`,
               height: `${120 * effectScale}px`,
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              animationDuration: '3s'
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              animationDuration: "3s",
             }}
           />
-          
+
           {/* Master Particles */}
           <ParticleSystem
             type="celebration"

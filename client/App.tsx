@@ -44,7 +44,7 @@ const App = () => (
                   "Weekly tournaments with special rewards",
                   "Seasonal championships",
                   "Clan vs Clan competitions",
-                  "Special arena tournaments"
+                  "Special arena tournaments",
                 ]}
               />
             }
@@ -62,7 +62,7 @@ const App = () => (
                   "AI players fill empty slots",
                   "Advanced skill system",
                   "Multiple game modes",
-                  "Replay system"
+                  "Replay system",
                 ]}
               />
             }
@@ -79,7 +79,7 @@ const App = () => (
                   "Skill training drills",
                   "Stat improvement exercises",
                   "Special ability unlocks",
-                  "Practice with AI"
+                  "Practice with AI",
                 ]}
               />
             }
@@ -97,7 +97,7 @@ const App = () => (
                   "Audio preferences",
                   "Control customization",
                   "Privacy settings",
-                  "Account management"
+                  "Account management",
                 ]}
               />
             }
@@ -135,7 +135,7 @@ const App = () => (
                 comingSoonFeatures={[
                   "Email verification system",
                   "Secure password reset",
-                  "Account recovery options"
+                  "Account recovery options",
                 ]}
               />
             }

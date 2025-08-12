@@ -1,92 +1,157 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Character3D from '@/components/Character3D';
-import PlayerCard from '@/components/PlayerCard';
-import Stadium3D from '@/components/Stadium3D';
-import ParticleSystem from '@/components/ParticleSystem';
-import TrailEffect from '@/components/TrailEffect';
-import VisualFeedback from '@/components/VisualFeedback';
-import SkillEffects from '@/components/SkillEffects';
-import MatchLoadingScreen from '@/components/MatchLoadingScreen';
-import LoadingScreen from '@/components/LoadingScreen';
-import { 
-  ArrowLeft, 
-  Play, 
-  Pause, 
-  RotateCcw,
-  Sparkles,
-  Zap
-} from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Character3D from "@/components/Character3D";
+import PlayerCard from "@/components/PlayerCard";
+import Stadium3D from "@/components/Stadium3D";
+import ParticleSystem from "@/components/ParticleSystem";
+import TrailEffect from "@/components/TrailEffect";
+import VisualFeedback from "@/components/VisualFeedback";
+import SkillEffects from "@/components/SkillEffects";
+import MatchLoadingScreen from "@/components/MatchLoadingScreen";
+import LoadingScreen from "@/components/LoadingScreen";
+import { ArrowLeft, Play, Pause, RotateCcw, Sparkles, Zap } from "lucide-react";
 
 export default function GameplayDemo() {
   const [showMatchLoading, setShowMatchLoading] = useState(false);
   const [showGameLoading, setShowGameLoading] = useState(false);
   const [feedbackEvents, setFeedbackEvents] = useState<any[]>([]);
   const [skillActive, setSkillActive] = useState(false);
-  const [particleType, setParticleType] = useState<'sparks' | 'stars' | 'explosion' | 'magic'>('sparks');
+  const [particleType, setParticleType] = useState<
+    "sparks" | "stars" | "explosion" | "magic"
+  >("sparks");
 
   const demoPlayers = [
     {
       name: "Lightning",
       level: 15,
-      position: 'forward' as const,
-      team: 'home' as const,
-      stats: { speed: 95, shooting: 88, passing: 75, defending: 45, goalkeeping: 20, overall: 85 },
-      rarity: 'epic' as const,
+      position: "forward" as const,
+      team: "home" as const,
+      stats: {
+        speed: 95,
+        shooting: 88,
+        passing: 75,
+        defending: 45,
+        goalkeeping: 20,
+        overall: 85,
+      },
+      rarity: "epic" as const,
       isAI: false,
       energy: 80,
-      maxEnergy: 100
+      maxEnergy: 100,
     },
     {
       name: "AI_Defender",
       level: 12,
-      position: 'defender' as const,
-      team: 'away' as const,
-      stats: { speed: 65, shooting: 35, passing: 80, defending: 92, goalkeeping: 15, overall: 75 },
-      rarity: 'rare' as const,
+      position: "defender" as const,
+      team: "away" as const,
+      stats: {
+        speed: 65,
+        shooting: 35,
+        passing: 80,
+        defending: 92,
+        goalkeeping: 15,
+        overall: 75,
+      },
+      rarity: "rare" as const,
       isAI: true,
       energy: 100,
-      maxEnergy: 100
+      maxEnergy: 100,
     },
     {
       name: "MidMaster",
       level: 18,
-      position: 'midfielder' as const,
-      team: 'home' as const,
-      stats: { speed: 78, shooting: 82, passing: 95, defending: 70, goalkeeping: 25, overall: 88 },
-      rarity: 'legendary' as const,
+      position: "midfielder" as const,
+      team: "home" as const,
+      stats: {
+        speed: 78,
+        shooting: 82,
+        passing: 95,
+        defending: 70,
+        goalkeeping: 25,
+        overall: 88,
+      },
+      rarity: "legendary" as const,
       isAI: false,
       energy: 90,
-      maxEnergy: 100
-    }
+      maxEnergy: 100,
+    },
   ];
 
   const teamPlayers = [
-    { id: '1', name: 'Player1', position: 'forward' as const, overall: 85, isAI: false },
-    { id: '2', name: 'AI_Mid1', position: 'midfielder' as const, overall: 78, isAI: true },
-    { id: '3', name: 'AI_Def1', position: 'defender' as const, overall: 82, isAI: true },
-    { id: '4', name: 'AI_Def2', position: 'defender' as const, overall: 79, isAI: true },
-    { id: '5', name: 'AI_GK', position: 'goalkeeper' as const, overall: 84, isAI: true }
+    {
+      id: "1",
+      name: "Player1",
+      position: "forward" as const,
+      overall: 85,
+      isAI: false,
+    },
+    {
+      id: "2",
+      name: "AI_Mid1",
+      position: "midfielder" as const,
+      overall: 78,
+      isAI: true,
+    },
+    {
+      id: "3",
+      name: "AI_Def1",
+      position: "defender" as const,
+      overall: 82,
+      isAI: true,
+    },
+    {
+      id: "4",
+      name: "AI_Def2",
+      position: "defender" as const,
+      overall: 79,
+      isAI: true,
+    },
+    {
+      id: "5",
+      name: "AI_GK",
+      position: "goalkeeper" as const,
+      overall: 84,
+      isAI: true,
+    },
   ];
 
-  const triggerFeedback = (type: 'xp' | 'goal' | 'level_up' | 'achievement') => {
+  const triggerFeedback = (
+    type: "xp" | "goal" | "level_up" | "achievement",
+  ) => {
     const event = {
       id: Date.now().toString(),
       type,
-      value: type === 'xp' ? 50 : type === 'goal' ? undefined : type === 'level_up' ? undefined : undefined,
-      message: type === 'goal' ? 'GOAL!' : type === 'level_up' ? 'LEVEL UP!' : type === 'achievement' ? 'Achievement Unlocked!' : undefined,
-      position: { x: 50 + (Math.random() - 0.5) * 20, y: 50 + (Math.random() - 0.5) * 20 },
-      timestamp: Date.now()
+      value:
+        type === "xp"
+          ? 50
+          : type === "goal"
+            ? undefined
+            : type === "level_up"
+              ? undefined
+              : undefined,
+      message:
+        type === "goal"
+          ? "GOAL!"
+          : type === "level_up"
+            ? "LEVEL UP!"
+            : type === "achievement"
+              ? "Achievement Unlocked!"
+              : undefined,
+      position: {
+        x: 50 + (Math.random() - 0.5) * 20,
+        y: 50 + (Math.random() - 0.5) * 20,
+      },
+      timestamp: Date.now(),
     };
-    
-    setFeedbackEvents(prev => [...prev, event]);
+
+    setFeedbackEvents((prev) => [...prev, event]);
   };
 
   const handleEventComplete = (eventId: string) => {
-    setFeedbackEvents(prev => prev.filter(e => e.id !== eventId));
+    setFeedbackEvents((prev) => prev.filter((e) => e.id !== eventId));
   };
 
   return (
@@ -102,7 +167,7 @@ export default function GameplayDemo() {
       {showMatchLoading && (
         <MatchLoadingScreen
           homeTeam={teamPlayers}
-          awayTeam={teamPlayers.map(p => ({ ...p, id: p.id + '_away' }))}
+          awayTeam={teamPlayers.map((p) => ({ ...p, id: p.id + "_away" }))}
           arena="gold"
           matchType="ranked"
           onLoadComplete={() => setShowMatchLoading(false)}
@@ -126,7 +191,9 @@ export default function GameplayDemo() {
                 Back to Stadium
               </Button>
             </Link>
-            <div className="text-2xl font-bold text-primary">🎮 Visual Components Demo</div>
+            <div className="text-2xl font-bold text-primary">
+              🎮 Visual Components Demo
+            </div>
           </div>
         </div>
       </header>
@@ -142,32 +209,56 @@ export default function GameplayDemo() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button onClick={() => setShowGameLoading(true)} className="bg-game-xp hover:bg-game-xp/90">
+              <Button
+                onClick={() => setShowGameLoading(true)}
+                className="bg-game-xp hover:bg-game-xp/90"
+              >
                 Show Loading Screen
               </Button>
-              <Button onClick={() => setShowMatchLoading(true)} className="bg-game-grass hover:bg-game-grass/90">
+              <Button
+                onClick={() => setShowMatchLoading(true)}
+                className="bg-game-grass hover:bg-game-grass/90"
+              >
                 Match Loading
               </Button>
-              <Button onClick={() => setSkillActive(!skillActive)} variant="outline">
+              <Button
+                onClick={() => setSkillActive(!skillActive)}
+                variant="outline"
+              >
                 <Zap className="w-4 h-4 mr-2" />
                 Toggle Skill Effect
               </Button>
-              <Button onClick={() => triggerFeedback('goal')} className="bg-red-500 hover:bg-red-600">
+              <Button
+                onClick={() => triggerFeedback("goal")}
+                className="bg-red-500 hover:bg-red-600"
+              >
                 Trigger Goal Effect
               </Button>
             </div>
-            
+
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button onClick={() => triggerFeedback('xp')} variant="outline" className="border-game-xp text-game-xp">
+              <Button
+                onClick={() => triggerFeedback("xp")}
+                variant="outline"
+                className="border-game-xp text-game-xp"
+              >
                 +XP Effect
               </Button>
-              <Button onClick={() => triggerFeedback('level_up')} variant="outline" className="border-game-gold text-game-gold">
+              <Button
+                onClick={() => triggerFeedback("level_up")}
+                variant="outline"
+                className="border-game-gold text-game-gold"
+              >
                 Level Up Effect
               </Button>
-              <Button onClick={() => triggerFeedback('achievement')} variant="outline" className="border-purple-500 text-purple-500">
+              <Button
+                onClick={() => triggerFeedback("achievement")}
+                variant="outline"
+                className="border-purple-500 text-purple-500"
+              >
                 Achievement Effect
               </Button>
-              <select 
+              <select
                 className="px-3 py-2 rounded border bg-background"
                 value={particleType}
                 onChange={(e) => setParticleType(e.target.value as any)}
@@ -188,7 +279,16 @@ export default function GameplayDemo() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {(['rookie', 'bronze', 'silver', 'gold', 'platinum', 'champion'] as const).map((arena) => (
+              {(
+                [
+                  "rookie",
+                  "bronze",
+                  "silver",
+                  "gold",
+                  "platinum",
+                  "champion",
+                ] as const
+              ).map((arena) => (
                 <div key={arena} className="space-y-2">
                   <Stadium3D
                     arena={arena}
@@ -198,7 +298,9 @@ export default function GameplayDemo() {
                     animated={true}
                     size="medium"
                   />
-                  <div className="text-center text-sm font-medium capitalize">{arena} Arena</div>
+                  <div className="text-center text-sm font-medium capitalize">
+                    {arena} Arena
+                  </div>
                 </div>
               ))}
             </div>
@@ -212,17 +314,21 @@ export default function GameplayDemo() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-              {(['idle', 'running', 'kicking', 'celebrating'] as const).map((animation) => (
-                <div key={animation} className="text-center space-y-2">
-                  <Character3D
-                    size="large"
-                    animation={animation}
-                    team="home"
-                    position="forward"
-                  />
-                  <div className="text-sm font-medium capitalize">{animation}</div>
-                </div>
-              ))}
+              {(["idle", "running", "kicking", "celebrating"] as const).map(
+                (animation) => (
+                  <div key={animation} className="text-center space-y-2">
+                    <Character3D
+                      size="large"
+                      animation={animation}
+                      team="home"
+                      position="forward"
+                    />
+                    <div className="text-sm font-medium capitalize">
+                      {animation}
+                    </div>
+                  </div>
+                ),
+              )}
             </div>
           </CardContent>
         </Card>
@@ -238,7 +344,7 @@ export default function GameplayDemo() {
                 <PlayerCard
                   key={index}
                   {...player}
-                  onClick={() => triggerFeedback('xp')}
+                  onClick={() => triggerFeedback("xp")}
                 />
               ))}
             </div>
@@ -260,7 +366,7 @@ export default function GameplayDemo() {
                 continuous={true}
                 position={{ x: 25, y: 50 }}
               />
-              
+
               <ParticleSystem
                 type="energy"
                 intensity="medium"
@@ -297,7 +403,9 @@ export default function GameplayDemo() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white/80">
                     <div className="text-2xl mb-2">✨</div>
-                    <div className="text-sm">Move your mouse to see trails!</div>
+                    <div className="text-sm">
+                      Move your mouse to see trails!
+                    </div>
                   </div>
                 </div>
               </TrailEffect>
@@ -320,7 +428,7 @@ export default function GameplayDemo() {
                 position={{ x: 30, y: 50 }}
                 size="large"
               />
-              
+
               <SkillEffects
                 skillType="shooting"
                 level={5}
@@ -331,7 +439,9 @@ export default function GameplayDemo() {
               />
 
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-white/80">
-                <div className="text-sm">Click "Toggle Skill Effect" to activate!</div>
+                <div className="text-sm">
+                  Click "Toggle Skill Effect" to activate!
+                </div>
               </div>
             </div>
           </CardContent>
@@ -341,9 +451,12 @@ export default function GameplayDemo() {
         <Card className="bg-game-xp/10 border-game-xp/30">
           <CardContent className="p-6">
             <div className="text-center">
-              <h3 className="text-xl font-bold text-game-xp mb-2">🎨 Complete Visual System</h3>
+              <h3 className="text-xl font-bold text-game-xp mb-2">
+                🎨 Complete Visual System
+              </h3>
               <p className="text-muted-foreground mb-4">
-                All visual components are now ready for your football game! The system includes:
+                All visual components are now ready for your football game! The
+                system includes:
               </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>✅ 3D Character System</div>
@@ -356,7 +469,8 @@ export default function GameplayDemo() {
                 <div>✅ Player Cards</div>
               </div>
               <p className="text-sm text-muted-foreground mt-4">
-                Ready for backend integration! Just swap placeholder data with real game state.
+                Ready for backend integration! Just swap placeholder data with
+                real game state.
               </p>
             </div>
           </CardContent>

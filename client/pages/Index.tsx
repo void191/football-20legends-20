@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import Stadium3D from '@/components/Stadium3D';
-import { 
-  Trophy, 
-  Zap, 
-  Users, 
-  Settings, 
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import Stadium3D from "@/components/Stadium3D";
+import {
+  Trophy,
+  Zap,
+  Users,
+  Settings,
   Star,
   Play,
   UserPlus,
   BarChart3,
-  Shield
-} from 'lucide-react';
+  Shield,
+} from "lucide-react";
 
 interface Arena {
   id: number;
@@ -41,22 +41,62 @@ export default function Index() {
     xpToNext: 1000,
     trophies: 2150,
     energy: 8,
-    maxEnergy: 10
+    maxEnergy: 10,
   });
 
   const arenas: Arena[] = [
-    { id: 1, name: "Rookie Field", minTrophies: 0, image: "🏟️", unlocked: true },
-    { id: 2, name: "Bronze Stadium", minTrophies: 500, image: "🥉", unlocked: true },
-    { id: 3, name: "Silver Arena", minTrophies: 1000, image: "🥈", unlocked: true },
-    { id: 4, name: "Gold Coliseum", minTrophies: 2000, image: "🥇", unlocked: true },
-    { id: 5, name: "Platinum Dome", minTrophies: 3000, image: "💎", unlocked: false },
-    { id: 6, name: "Champion League", minTrophies: 5000, image: "👑", unlocked: false },
+    {
+      id: 1,
+      name: "Rookie Field",
+      minTrophies: 0,
+      image: "🏟️",
+      unlocked: true,
+    },
+    {
+      id: 2,
+      name: "Bronze Stadium",
+      minTrophies: 500,
+      image: "🥉",
+      unlocked: true,
+    },
+    {
+      id: 3,
+      name: "Silver Arena",
+      minTrophies: 1000,
+      image: "🥈",
+      unlocked: true,
+    },
+    {
+      id: 4,
+      name: "Gold Coliseum",
+      minTrophies: 2000,
+      image: "🥇",
+      unlocked: true,
+    },
+    {
+      id: 5,
+      name: "Platinum Dome",
+      minTrophies: 3000,
+      image: "💎",
+      unlocked: false,
+    },
+    {
+      id: 6,
+      name: "Champion League",
+      minTrophies: 5000,
+      image: "👑",
+      unlocked: false,
+    },
   ];
 
-  const currentArena = arenas.find(arena => 
-    playerStats.trophies >= arena.minTrophies && 
-    (arenas[arena.id] ? playerStats.trophies < arenas[arena.id].minTrophies : true)
-  ) || arenas[0];
+  const currentArena =
+    arenas.find(
+      (arena) =>
+        playerStats.trophies >= arena.minTrophies &&
+        (arenas[arena.id]
+          ? playerStats.trophies < arenas[arena.id].minTrophies
+          : true),
+    ) || arenas[0];
 
   const xpProgress = (playerStats.xp / playerStats.xpToNext) * 100;
   const energyProgress = (playerStats.energy / playerStats.maxEnergy) * 100;
@@ -68,8 +108,13 @@ export default function Index() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="text-2xl font-bold text-primary">⚽ FutbolLegends</div>
-              <Badge variant="outline" className="bg-game-gold/10 text-game-gold border-game-gold">
+              <div className="text-2xl font-bold text-primary">
+                ⚽ FutbolLegends
+              </div>
+              <Badge
+                variant="outline"
+                className="bg-game-gold/10 text-game-gold border-game-gold"
+              >
                 Level {playerStats.level}
               </Badge>
             </div>
@@ -93,7 +138,11 @@ export default function Index() {
                 </Button>
               </Link>
               <Link to="/demo">
-                <Button variant="ghost" size="sm" className="bg-game-xp/10 text-game-xp">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="bg-game-xp/10 text-game-xp"
+                >
                   <Star className="w-4 h-4 mr-2" />
                   Visual Demo
                 </Button>
@@ -112,10 +161,13 @@ export default function Index() {
                 <span className="text-sm font-medium">Experience</span>
                 <Zap className="w-4 h-4 text-game-xp" />
               </div>
-              <div className="text-2xl font-bold mb-2">{playerStats.xp.toLocaleString()} XP</div>
+              <div className="text-2xl font-bold mb-2">
+                {playerStats.xp.toLocaleString()} XP
+              </div>
               <Progress value={xpProgress} className="h-2" />
               <div className="text-xs text-muted-foreground mt-1">
-                {playerStats.xpToNext - playerStats.xp} XP to level {playerStats.level + 1}
+                {playerStats.xpToNext - playerStats.xp} XP to level{" "}
+                {playerStats.level + 1}
               </div>
             </CardContent>
           </Card>
@@ -126,7 +178,9 @@ export default function Index() {
                 <span className="text-sm font-medium">Trophies</span>
                 <Trophy className="w-4 h-4 text-game-gold" />
               </div>
-              <div className="text-2xl font-bold mb-2">{playerStats.trophies.toLocaleString()}</div>
+              <div className="text-2xl font-bold mb-2">
+                {playerStats.trophies.toLocaleString()}
+              </div>
               <div className="text-xs text-muted-foreground">
                 Current Arena: {currentArena.name}
               </div>
@@ -139,7 +193,9 @@ export default function Index() {
                 <span className="text-sm font-medium">Energy</span>
                 <Zap className="w-4 h-4 text-game-energy" />
               </div>
-              <div className="text-2xl font-bold mb-2">{playerStats.energy}/{playerStats.maxEnergy}</div>
+              <div className="text-2xl font-bold mb-2">
+                {playerStats.energy}/{playerStats.maxEnergy}
+              </div>
               <Progress value={energyProgress} className="h-2" />
               <div className="text-xs text-muted-foreground mt-1">
                 Refills in 45 minutes
@@ -155,11 +211,19 @@ export default function Index() {
             <CardContent className="p-8">
               <div className="text-center mb-6">
                 <Stadium3D
-                  arena={currentArena.id === 1 ? 'rookie' :
-                         currentArena.id === 2 ? 'bronze' :
-                         currentArena.id === 3 ? 'silver' :
-                         currentArena.id === 4 ? 'gold' :
-                         currentArena.id === 5 ? 'platinum' : 'champion'}
+                  arena={
+                    currentArena.id === 1
+                      ? "rookie"
+                      : currentArena.id === 2
+                        ? "bronze"
+                        : currentArena.id === 3
+                          ? "silver"
+                          : currentArena.id === 4
+                            ? "gold"
+                            : currentArena.id === 5
+                              ? "platinum"
+                              : "champion"
+                  }
                   timeOfDay="evening"
                   weather="clear"
                   crowd="full"
@@ -167,18 +231,30 @@ export default function Index() {
                   size="large"
                   className="mb-4"
                 />
-                <h2 className="text-2xl font-bold text-game-grass mb-2">{currentArena.name}</h2>
-                <Badge variant="outline" className="bg-game-gold/10 text-game-gold border-game-gold">
+                <h2 className="text-2xl font-bold text-game-grass mb-2">
+                  {currentArena.name}
+                </h2>
+                <Badge
+                  variant="outline"
+                  className="bg-game-gold/10 text-game-gold border-game-gold"
+                >
                   {playerStats.trophies} Trophies
                 </Badge>
               </div>
 
               <div className="space-y-4">
-                <Button size="lg" className="w-full bg-game-grass hover:bg-game-grass/90 text-white">
+                <Button
+                  size="lg"
+                  className="w-full bg-game-grass hover:bg-game-grass/90 text-white"
+                >
                   <Play className="w-5 h-5 mr-2" />
                   Play Match (5v5)
                 </Button>
-                <Button variant="outline" size="lg" className="w-full border-game-xp text-game-xp hover:bg-game-xp/10">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full border-game-xp text-game-xp hover:bg-game-xp/10"
+                >
                   <Shield className="w-5 h-5 mr-2" />
                   Friendly Match
                 </Button>
@@ -205,17 +281,17 @@ export default function Index() {
                 <Trophy className="w-5 h-5 mr-2 text-game-gold" />
                 Arena Progression
               </h3>
-              
+
               <div className="space-y-3">
                 {arenas.map((arena) => (
-                  <div 
+                  <div
                     key={arena.id}
                     className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
-                      arena.id === currentArena.id 
-                        ? 'bg-game-grass/10 border-game-grass text-game-grass' 
-                        : arena.unlocked 
-                          ? 'bg-card/50 border-border hover:bg-card' 
-                          : 'bg-muted/20 border-muted opacity-50'
+                      arena.id === currentArena.id
+                        ? "bg-game-grass/10 border-game-grass text-game-grass"
+                        : arena.unlocked
+                          ? "bg-card/50 border-border hover:bg-card"
+                          : "bg-muted/20 border-muted opacity-50"
                     }`}
                   >
                     <div className="text-2xl">{arena.image}</div>
@@ -226,11 +302,11 @@ export default function Index() {
                       </div>
                     </div>
                     {arena.id === currentArena.id && (
-                      <Badge className="bg-game-grass text-white">Current</Badge>
+                      <Badge className="bg-game-grass text-white">
+                        Current
+                      </Badge>
                     )}
-                    {!arena.unlocked && (
-                      <Badge variant="outline">Locked</Badge>
-                    )}
+                    {!arena.unlocked && <Badge variant="outline">Locked</Badge>}
                   </div>
                 ))}
               </div>
@@ -238,13 +314,28 @@ export default function Index() {
               <div className="mt-6 p-4 bg-game-xp/10 rounded-lg border border-game-xp/30">
                 <h4 className="font-semibold text-game-xp mb-2">Next Arena</h4>
                 <div className="text-sm">
-                  {arenas.find(a => a.minTrophies > playerStats.trophies) ? (
+                  {arenas.find((a) => a.minTrophies > playerStats.trophies) ? (
                     <>
-                      <div>Need {arenas.find(a => a.minTrophies > playerStats.trophies)!.minTrophies - playerStats.trophies} more trophies</div>
-                      <div className="text-muted-foreground">to unlock {arenas.find(a => a.minTrophies > playerStats.trophies)!.name}</div>
+                      <div>
+                        Need{" "}
+                        {arenas.find(
+                          (a) => a.minTrophies > playerStats.trophies,
+                        )!.minTrophies - playerStats.trophies}{" "}
+                        more trophies
+                      </div>
+                      <div className="text-muted-foreground">
+                        to unlock{" "}
+                        {
+                          arenas.find(
+                            (a) => a.minTrophies > playerStats.trophies,
+                          )!.name
+                        }
+                      </div>
                     </>
                   ) : (
-                    <div className="text-game-gold">🎉 All arenas unlocked!</div>
+                    <div className="text-game-gold">
+                      🎉 All arenas unlocked!
+                    </div>
                   )}
                 </div>
               </div>
@@ -259,31 +350,37 @@ export default function Index() {
               <CardContent className="p-4 text-center">
                 <UserPlus className="w-8 h-8 mx-auto mb-2 text-game-xp" />
                 <div className="font-medium">Invite Friends</div>
-                <div className="text-xs text-muted-foreground">Earn bonus XP</div>
+                <div className="text-xs text-muted-foreground">
+                  Earn bonus XP
+                </div>
               </CardContent>
             </Card>
           </Link>
-          
+
           <Link to="/stats">
             <Card className="hover:bg-card/80 transition-colors cursor-pointer">
               <CardContent className="p-4 text-center">
                 <BarChart3 className="w-8 h-8 mx-auto mb-2 text-game-gold" />
                 <div className="font-medium">View Stats</div>
-                <div className="text-xs text-muted-foreground">Track progress</div>
+                <div className="text-xs text-muted-foreground">
+                  Track progress
+                </div>
               </CardContent>
             </Card>
           </Link>
-          
+
           <Link to="/customize">
             <Card className="hover:bg-card/80 transition-colors cursor-pointer">
               <CardContent className="p-4 text-center">
                 <Settings className="w-8 h-8 mx-auto mb-2 text-game-energy" />
                 <div className="font-medium">Customize</div>
-                <div className="text-xs text-muted-foreground">Player & kit</div>
+                <div className="text-xs text-muted-foreground">
+                  Player & kit
+                </div>
               </CardContent>
             </Card>
           </Link>
-          
+
           <Card className="hover:bg-card/80 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <Trophy className="w-8 h-8 mx-auto mb-2 text-game-silver" />
