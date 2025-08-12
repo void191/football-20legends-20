@@ -57,6 +57,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        game: {
+          grass: "hsl(var(--game-grass))",
+          field: "hsl(var(--game-field))",
+          gold: "hsl(var(--game-gold))",
+          silver: "hsl(var(--game-silver))",
+          bronze: "hsl(var(--game-bronze))",
+          xp: "hsl(var(--game-xp))",
+          energy: "hsl(var(--game-energy))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
