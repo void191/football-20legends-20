@@ -30,6 +30,7 @@ const App = () => (
           <Route path="/stats" element={<Stats />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/customize" element={<Customize />} />
+          <Route path="/demo" element={<GameplayDemo />} />
 
           {/* Placeholder pages for future features */}
           <Route
