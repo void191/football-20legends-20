@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Stats from "./pages/Stats";
 import Friends from "./pages/Friends";
 import Customize from "./pages/Customize";
+import GameplayDemo from "./pages/GameplayDemo";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 import { Trophy, Gamepad2, Shield, Settings, FileText } from "lucide-react";
@@ -35,7 +36,7 @@ const App = () => (
             path="/tournaments"
             element={
               <PlaceholderPage
-                title="��� Tournaments"
+                title="🏆 Tournaments"
                 description="Compete in epic tournaments and climb the ranks!"
                 icon={<Trophy className="w-12 h-12 text-game-gold" />}
                 comingSoonFeatures={[
