@@ -92,6 +92,12 @@ export default function Index() {
                   Customize
                 </Button>
               </Link>
+              <Link to="/demo">
+                <Button variant="ghost" size="sm" className="bg-game-xp/10 text-game-xp">
+                  <Star className="w-4 h-4 mr-2" />
+                  Visual Demo
+                </Button>
+              </Link>
             </nav>
           </div>
         </div>
