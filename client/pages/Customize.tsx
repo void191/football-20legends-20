@@ -184,11 +184,24 @@ export default function Customize() {
                 <CardDescription>See how your character looks</CardDescription>
               </CardHeader>
               <CardContent className="text-center">
-                <div className="bg-game-field/20 rounded-xl p-8 mb-4">
-                  <div className="text-8xl mb-4">⚽</div>
-                  <div className="text-4xl mb-2">👤</div>
-                  <div className="text-sm text-muted-foreground">3D Preview Coming Soon</div>
-                </div>
+                <Character3DPreview
+                  customization={{
+                    hair: hairStyles.find(h => h.id === selectedItems.hair)?.name || 'Classic',
+                    face: faces.find(f => f.id === selectedItems.face)?.name || 'Friendly',
+                    jersey: jerseys.find(j => j.id === selectedItems.jersey)?.name || 'Home Kit',
+                    shorts: 'Standard',
+                    boots: boots.find(b => b.id === selectedItems.boots)?.name || 'Standard Boots',
+                    number: Math.floor(Math.random() * 99) + 1,
+                    position: 'forward',
+                    team: 'home'
+                  }}
+                  animation="idle"
+                  showSkills={true}
+                  skillLevel={3}
+                  interactive={true}
+                  size="xl"
+                  className="mb-4"
+                />
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
